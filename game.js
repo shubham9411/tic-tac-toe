@@ -1,3 +1,34 @@
+// Player Initialization
+var player = 'x';
+var opponent = 'o';
+/**
+ * Initial Board with no values.
+ **/
+board = {
+	0 : {
+		0 : '_',
+		1 : '_',
+		2 : '_',
+	},
+	1 : {
+		0 : '_',
+		1 : '_',
+		2 : '_',
+	},
+	2 : {
+		0 : '_',
+		1 : '_',
+		2 : '_',
+	}
+}
+bestMove = {
+	row : -1,
+	col : -1,
+}
+
+/**
+ * Evaluate Function for checking if their is a win.
+ **/
 function evaluate( board){
 	// Check for the Row.
 	for ( i = 0 ; i < 3 ; i++ ) {
@@ -58,29 +89,30 @@ function evaluate( board){
 			}
 		}
 	}
-	console.log(board);
 }
-var player = 'x';
-var opponent = 'o';
 /**
- * Initial Board with no values.
+ * Function to finding the next best move.
  **/
-board = {
-	0 : {
-		0 : '_',
-		1 : '_',
-		2 : '_',
-	},
-	1 : {
-		0 : '_',
-		1 : '_',
-		2 : '_',
-	},
-	2 : {
-		0 : '_',
-		1 : '_',
-		2 : '_',
+function bestMove( board ) {
+	var bestVal = -1000;
+	bestMove = {
+		row : -1,
+		col : -1,
+	}
+	for ( i = 0; i < 3; i++ ) {
+		for ( j = 0; j < 3 ; j++ ) {
+			if ( '_' === board[i][j] ) { // if empty
+				board[i][j] = player;
+				var moveVal = minimax( board , 0 , false );
+				board[i][j] = '_';  //backing off to previous emplty value
+				if ( moveVal > bestVal ) {
+					bestMove.row = i;
+					bestMove.col = j;
+					bestVal = moveVal;
+				}
+			}
+		}
 	}
 }
 
-window.onload = evaluate( board );
+window.onload = bestMove( board );
