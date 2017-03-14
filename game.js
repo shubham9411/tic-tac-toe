@@ -1,122 +1,82 @@
 // Player Initialization
 var player = 'x';
 var opponent = 'o';
-/**
- * Initial Board with no values.
- **/
-board = {
+var board = {
 	0 : {
-		0 : 'x',
-		1 : 'x',
-		2 : 'x',
+		0 : 'x', 1 : 'o', 2 : 'x',
 	},
 	1 : {
-		0 : '_',
-		1 : '_',
-		2 : '_',
+		0 : 'o', 1 : 'o', 2 : 'x',
 	},
 	2 : {
-		0 : '_',
-		1 : '_',
-		2 : '_',
-	}
-}
-bestMove = {
+		0 : '_', 1 : 'o', 2 : '_',
+	},
+};
+var bestMove = {
 	row : -1,
 	col : -1,
-}
+};
 // function to check the minimum of two values
 function min( a, b ){
-	if( a > b ){
-		return b;
-	}
-	if( b > a ){
-		return a;
-	}
-	return null;
+	return ( a > b ) ? b : a;
 }
 // function to check the maximum of two values
 function max( a, b ){
-	if( a > b ){
-		return a;
-	}
-	if( b > a ){
-		return b;
-	}
-	return null;
+	return ( a > b ) ? a : b;
 }
 /**
  * Evaluate Function for checking if their is a win.
  **/
-function evaluate( board){
+var evaluate = function( board ){
 	// Check for the Row.
 	for ( i = 0 ; i < 3 ; i++ ) {
-		for ( j = 0 ; j < 3 ; j++ ) {
-			if ( board[i][0] == board[i][1] && board[i][1] == board[i][2]){
-				if( player == board[i][0] ){
-					return 10;
-				}
-				else if( opponent == board[i][0] ){
-					return -10;
-				}
-				else if( '_' == board[i][0] ){
-					return 0;
-				}
+		if ( board[i][0] == board[i][1] && board[i][1] == board[i][2]){
+			if( player == board[i][0] ){
+				return 10;
+			}
+			else if( opponent == board[i][0] ){
+				return -10;
 			}
 		}
 	}
 	// Check for the Column.
-	for ( i = 0 ; i < 3 ; i++ ) {
-		for ( j = 0 ; j < 3 ; j++ ) {
-			if ( board[0][j] == board[1][j] && board[1][j] == board[2][j]){
-				if( player == board[0][j] ){
-					return 10;
-				}
-				else if( opponent == board[0][j] ){
-					return -10;
-				}
-				else if( '_' == board[0][j] ){
-					return 0;
-				}
+	for ( j = 0 ; j < 3 ; j++ ) {
+		if ( board[0][j] == board[1][j] && board[1][j] == board[2][j]){
+			if( player == board[0][j] ){
+				return 10;
+			}
+			else if( opponent == board[0][j] ){
+				return -10;
 			}
 		}
 	}
 	// Check for the Diagnols.
-	for ( i = 0 ; i < 3 ; i++ ) {
-		for ( j = 0 ; j < 3 ; j++ ) {
-			if ( board[0][0] == board[1][1] && board[2][2] == board[1][1]){
-				if( player == board[0][0] ){
-					return 10;
-				}
-				else if( opponent == board[0][0] ){
-					return -10;
-				}
-				else if( '_' == board[0][0] ){
-					return 0;
-				}
-			}
-			else if ( board[0][2] == board[1][1] && board[2][0] == board[1][1]){
-				if( player == board[0][0] ){
-					return 10;
-				}
-				else if( opponent == board[0][0] ){
-					return -10;
-				}
-				else if( '_' == board[0][0] ){
-					return 0;
-				}
-			}
+	if ( board[0][0] == board[1][1] && board[2][2] == board[1][1]){
+		if( player == board[0][0] ){
+			return 10;
+		}
+		else if( opponent == board[0][0] ){
+			return -10;
 		}
 	}
+	if ( board[0][2] == board[1][1] && board[2][0] == board[1][1]){
+		if( player == board[0][2] ){
+			return 10;
+		}
+		else if( opponent == board[0][2] ){
+			return -10;
+		}
+	}
+	return 0;
 }
 
 /**
  * Function to if Moves left
  **/
-function isMoveLeft( board ) {
+var isMoveLeft = function( board ) {
 	for ( i = 0 ; i < 3 ; i++ ) {
 		for ( j = 0 ; j < 3 ; j++ ) {
-			if ( '_' === board[i][j] ){
+			if ( '_' == board[i][j] ){
 				return true;
 			}
 		}
@@ -127,61 +87,69 @@ function isMoveLeft( board ) {
 /**
  * Function to finding the next best move.
  **/
-function minimax( board, depth, isMax ) {
+var minimax = function( board, depth, isMax = 0 ) {
 	var score = evaluate( board );
-	if ( -10 == score ) { //Future tweeking for 10 - score
+	console.log( 'score ' + score );
+	if ( -10 == score ) {
+		alert('leaving' );
 		return score;
 	}
-	if ( 10 == score ) { //Future tweeking for score -10 
+	if ( 10 == score ) {
 		return score;
 	}
 	if ( ! isMoveLeft ( board ) ) {
+		alert('nomove');
 		return 0;
 	}
-	if ( isMax ) {   // Now maximizingg the value
+	if ( 1 == isMax ) {   // Now maximizingg the value
+		console.log('max');
 		var best = -1000;
-		for ( i = 0 ; i <3 ; i++ ) {
+		for ( i = 0 ; i < 3 ; i++ ) {
 			for ( j = 0 ; j < 3 ; j++ ) {
-				if ( '_' === board[i][j] ) {
+
+				if ( '_' == board[i][j] ) {
 					board[i][j] = player;
-					bestVal = minimax( board , depth+1 , false );
-					best = max( best, bestVal );
+					depth++;
+					best = max( best, minimax( board , depth , 0 ) );
 					board[i][j] = '_';
 				}
-				return best;
 			}
 		}
+		return best;
 	}
-	if ( ! isMax ) {  // Now minimizingg the value
-		var best = +1000;
+	if ( 0 == isMax ) {  // Now minimizingg the value
+		console.log('min');
+		var best = 1000;
 		for ( i = 0 ; i <3 ; i++ ) {
 			for ( j = 0 ; j < 3 ; j++ ) {
-				if ( '_' === board[i][j] ) {
+
+				if ( '_' == board[i][j]) {
 					board[i][j] = opponent;
-					bestVal = minimax( board , depth+1 , true );
-					best = min( best, bestVal );
+					depth++;
+					best = min( best, minimax( board , depth , 1 ) );
 					board[i][j] = '_';
 				}
-				return best;
+
 			}
 		}
+		return best;
 	}
 }
 
 /**
  * Function to finding the next best move.
  **/
-function findBestMove( board ) {
-	var bestVal = -1000;
+var findBestMove = function( board ) {
+	bestVal = -1000;
 	bestMove = {
 		row : -1,
 		col : -1,
-	}
+	};
 	for ( i = 0; i < 3; i++ ) {
 		for ( j = 0; j < 3 ; j++ ) {
-			if ( '_' === board[i][j] ) { // if empty
+			if ( '_' == board[i][j] ) { // if empty
 				board[i][j] = player;
-				var moveVal = minimax( board, 0, false );
+				moveVal = minimax( board, 0 , 0 );
 				board[i][j] = '_';  //backing off to previous empty value
 				if ( moveVal > bestVal ) {
 					bestMove.row = i;
@@ -191,6 +159,23 @@ function findBestMove( board ) {
 			}
 		}
 	}
+	return bestMove;
 }
 
-window.onload = alert('start');
+class lol{
+	constructor(value){
+		this.lol = value;
+	}
+	static l(){
+		alert('lol');
+	}
+}
+
+jQuery(document).ready(function(){
+	console.log(board);
+	lol = new lol;
+	lol.l();
+	console.log(max(2,4));
+	bestMove = findBestMove(board);
+	console.log(bestMove);
+});
