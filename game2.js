@@ -18,7 +18,7 @@ function min( a, b ){
 function max( a, b ){
 	return ( a > b ) ? a : b;
 }
-function evaluate( board ){
+function evaluate(){
 	// Check for the Row.
 	for ( i = 0 ; i < 3 ; i++ ) {
 		if ( board[i][0] == board[i][1] && board[i][1] == board[i][2]){
@@ -60,7 +60,7 @@ function evaluate( board ){
 	}
 	return 0;
 }
-function isMoveLeft( board ) {
+function isMoveLeft() {
 	for ( i = 0 ; i < 3 ; i++ ) {
 		for ( j = 0 ; j < 3 ; j++ ) {
 			if ( '_' == board[i][j] ){
@@ -70,32 +70,25 @@ function isMoveLeft( board ) {
 	}
 	return false;
 }
-function minimax( board, depth, isMax = 1 ) {
-	score = evaluate( board );
+function minimax( depth, isMax ) {
+	var score = evaluate();
 	if ( -10 == score ) {
 		return (score + depth);
 	}
 	if ( 10 == score ) {
 		return (score - depth);
 	}
-	if ( ! isMoveLeft ( board ) ) {
+	if ( ! isMoveLeft() ) {
 		return 0;
 	}
 	if ( 1 == isMax ) {   // Now maximizingg the value
-		console.log('max');
-		best = -1000;
-		for ( i = 0 ; i <= 2 ; i++ ) {
-			for ( j = 0 ; j <= 2 ; j++ ) {
-				console.log(i + ' ' + j);
+		var best = -1000;
+		for ( i = 0 ; i < 3 ; i++ ) {
+			for ( j = 0 ; j < 3 ; j++ ) {
 				if ( '_' == board[i][j] ) {
-					console.log('lol');
-					console.log(i + ' ' + j);
 					board[i][j] = player;
-					console.log(board);
-					depth++;
-					best = max( best, minimax( board , depth , 0 ) );
-					console.log('best ' + best);
-					console.log(i + ' ' + j);
+					depth += 1;
+					best = max( best, minimax( depth , 0 ) );
 					board[i][j] = '_';
 				}
 			}
@@ -103,15 +96,14 @@ function minimax( board, depth, isMax = 1 ) {
 		return best;
 	}
 	if ( 0 == isMax ) {  // Now minimizingg the value
-		console.log('min');
 		var best = 1000;
-		for ( i = 0 ; i <= 2 ; i++ ) {
-			for ( j = 0 ; j <= 2 ; j++ ) {
-
+		var i,j;
+		for ( i = 0 ; i < 3 ; i++ ) {
+			for ( j = 0 ; j < 3 ; j++ ) {
 				if ( '_' == board[i][j]) {
 					board[i][j] = opponent;
-					depth++;
-					best = min( best, minimax( board , depth , 1 ) );
+					depth += 1;
+					best = min( best, minimax( depth , 1 ) );
 					board[i][j] = '_';
 				}
 
@@ -120,17 +112,18 @@ function minimax( board, depth, isMax = 1 ) {
 		return best;
 	}
 }
-function findBestMove( board ) {
-	bestVal = -1000;
-	bestMove = {
+function findBestMove() {
+	var bestVal = -1000;
+	var bestMove = {
 		row : -1,
 		col : -1,
 	};
+	var moveVal,i,j;
 	for ( i = 0; i < 3; i++ ) {
 		for ( j = 0; j < 3 ; j++ ) {
 			if ( '_' == board[i][j] ) { // if empty
 				board[i][j] = player;
-				moveVal = minimax( board, 0 , 1 );
+				moveVal = minimax( 0 , 0 );
 				board[i][j] = '_';  //backing off to previous empty value
 				if ( moveVal > bestVal ) {
 					bestMove.row = i;
@@ -146,12 +139,9 @@ return{
 	init:function(){
 		reset_board();
 		console.log(board);
-		findBestMove(board,0);
+		var x = findBestMove();
+		console.log(x);
+		console.log(board);
 	}
 }
 })();
-
-
-jQuery(document).ready(function(){
-	game.init();
-});
