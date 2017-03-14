@@ -87,15 +87,15 @@ var isMoveLeft = function( board ) {
 /**
  * Function to finding the next best move.
  **/
-var minimax = function( board, depth, isMax = 0 ) {
+var minimax = function( board, depth, isMax = 1 ) {
 	var score = evaluate( board );
 	console.log( 'score ' + score );
 	if ( -10 == score ) {
 		alert('leaving' );
-		return score;
+		return (score + board);
 	}
 	if ( 10 == score ) {
-		return score;
+		return (score - board);
 	}
 	if ( ! isMoveLeft ( board ) ) {
 		alert('nomove');
@@ -161,16 +161,6 @@ var findBestMove = function( board ) {
 	}
 	return bestMove;
 }
-
-class lol{
-	constructor(value){
-		this.lol = value;
-	}
-	static l(){
-		alert('lol');
-	}
-}
-
 jQuery(document).ready(function(){
 	console.log(board);
 	lol = new lol;
