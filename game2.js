@@ -2,7 +2,6 @@ var count = 0;
 var player = 'x';
 var opponent = 'o';
 var game = (function(){
-// Player Initialization
 var board = [];
 var bestMove = [];
 function reset_board(){
@@ -74,15 +73,15 @@ function isMoveLeft() {
 function minimax( depth, isMax ) {
 	var score = evaluate();
 	if ( -10 == score ) {
-		return (score + depth);
+		return (score - depth);
 	}
 	if ( 10 == score ) {
-		return (score - depth);
+		return (score + depth);
 	}
 	if ( ! isMoveLeft() ) {
 		return 0;
 	}
-	if ( 1 == isMax ) {   // Now maximizingg the value
+	if ( 1 == isMax ) {   // Now maximizing the value
 		var best = -1000;
 		for ( i = 0 ; i < 3 ; i++ ) {
 			for ( j = 0 ; j < 3 ; j++ ) {
@@ -96,7 +95,7 @@ function minimax( depth, isMax ) {
 		}
 		return best;
 	}
-	if ( 0 == isMax ) {  // Now minimizingg the value
+	if ( 0 == isMax ) {  // Now minimizing the value
 		var best = 1000;
 		var i,j;
 		for ( i = 0 ; i < 3 ; i++ ) {
@@ -142,6 +141,16 @@ return{
 			reset_board();
 			count++;
 		}
+		// console.log(board);
+		var score = evaluate();
+		if( score == 10 ){
+			console.log('Computer is Winner');
+			var bestMove = {
+				row : -1,
+				col : -1,
+			};
+			return bestMove;
+		}
 		board[x][y] = opponent;
 		var freshMove = findBestMove();
 		if(freshMove.row != -1 || freshMove.col != -1 ){
@@ -149,14 +158,13 @@ return{
 		} else{
 			console.log('Game Over!');
 		}
-		console.log(board);
 		return freshMove;
 	}
 }
 })();
 function move(element,x,y){
 	if ($(element).hasClass('place-free')){
-		$(element).html(opponent);
+		$(element).html('<h1>' + opponent + '</h1>');
 		var move = game.move(x,y);
 		if(move.row == 0 ){
 			var place = move.col;
@@ -166,7 +174,7 @@ function move(element,x,y){
 			var place = 6 + move.col;
 		}
 		playerMove = '.' + place + 'place';
-		$(playerMove).html(player);
+		$(playerMove).html('<h1>' + player + '</h1>');
 		$(element).removeClass('place-free').addClass('place-occupied');
 		$(playerMove).removeClass('place-free').addClass('place-occupied');
 	} else{

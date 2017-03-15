@@ -1,0 +1,43 @@
+#board{
+	background: green;
+	padding: 10px;
+	width: 600px;
+	height: 600px;
+	margin: auto;
+}
+.place{
+	width: 120px;
+	height: 120px;
+	transition: 1s;
+}
+.place h1{
+	font-size: 100px;
+	margin: 0;
+}
+.place-free{
+	background: ;
+}
+.place.place-occupied{
+	background: #2196f3;
+}
+.wrap div{
+	display: inline-block;
+}
+@media (max-width:767px) and (min-width:480px){
+	.place{
+		width: 10em;
+		height: 10em;
+	}
+	.place h1{
+		font-size: 50px;
+	}
+}
+@media (max-width:480px){
+	.place{
+		width: 6em;
+		height: 6em;
+	}
+	.place h1{
+		font-size: 24px;
+	}
+}
