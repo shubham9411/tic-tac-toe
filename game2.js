@@ -1,7 +1,8 @@
-var game = (function(){
-// Player Initialization
+var count = 0;
 var player = 'x';
 var opponent = 'o';
+var game = (function(){
+// Player Initialization
 var board = [];
 var bestMove = [];
 function reset_board(){
@@ -136,12 +137,39 @@ function findBestMove() {
 	return bestMove;
 }
 return{
-	init:function(){
-		reset_board();
+	move:function(x,y){
+		if( count == 0) {
+			reset_board();
+			count++;
+		}
+		board[x][y] = opponent;
+		var freshMove = findBestMove();
+		if(freshMove.row != -1 || freshMove.col != -1 ){
+			board[freshMove.row][freshMove.col] = player;
+		} else{
+			console.log('Game Over!');
+		}
 		console.log(board);
-		var x = findBestMove();
-		console.log(x);
-		console.log(board);
+		return freshMove;
 	}
 }
 })();
+function move(element,x,y){
+	if ($(element).hasClass('place-free')){
+		$(element).html(opponent);
+		var move = game.move(x,y);
+		if(move.row == 0 ){
+			var place = move.col;
+		} else if(move.row == 1 ){
+			var place = 3 + move.col;
+		} else if(move.row == 2 ){
+			var place = 6 + move.col;
+		}
+		playerMove = '.' + place + 'place';
+		$(playerMove).html(player);
+		$(element).removeClass('place-free').addClass('place-occupied');
+		$(playerMove).removeClass('place-free').addClass('place-occupied');
+	} else{
+		console.log('Place already used!');
+	}
+}
