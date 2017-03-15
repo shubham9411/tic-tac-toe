@@ -58,7 +58,10 @@ body{
 .container.reload a{
 	margin: 1em auto;
 }
-
+.gap{
+	height: 3em;
+	width: 100%;
+}
 /* The snackbar - position it at the bottom and in the middle of the screen */
 #usedSnackbar {
     visibility: hidden; /* Hidden by default. Visible on click */

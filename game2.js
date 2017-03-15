@@ -198,3 +198,13 @@ function move(element,x,y){
 		},3000);
 	}
 }
+$(document).ready(function(){
+	$('#openModal').modal();
+})
+function weapon(tic){
+	player = (tic === 'x') ? 'O' : 'X';
+	opponent = (tic === 'x') ? 'X' : 'o';
+	console.log(player);
+	console.log(opponent);
+	$('#openModal').modal('hide');
+}
