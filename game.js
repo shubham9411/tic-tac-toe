@@ -1,33 +1,26 @@
-// Player Initialization
-var player = 'x';
-var opponent = 'o';
-var board = {
-	0 : {
-		0 : 'x', 1 : 'o', 2 : 'x',
-	},
-	1 : {
-		0 : 'o', 1 : 'o', 2 : 'x',
-	},
-	2 : {
-		0 : '_', 1 : 'o', 2 : '_',
-	},
-};
-var bestMove = {
-	row : -1,
-	col : -1,
-};
-// function to check the minimum of two values
+var count = 0;
+var player = 'X';
+var opponent = 'O';
+var game = (function(){
+var board = [];
+var bestMove = [];
+function reset_board(){
+	for(i=0;i<3;i++){
+		board.pop([]);
+	}
+	for(i=0;i<3;i++){
+		board.push([ '_', '_', '_' ]);
+	}
+	// $('h1').html(' ');
+
+}
 function min( a, b ){
 	return ( a > b ) ? b : a;
 }
-// function to check the maximum of two values
 function max( a, b ){
 	return ( a > b ) ? a : b;
 }
-/**
- * Evaluate Function for checking if their is a win.
- **/
-var evaluate = function( board ){
+function evaluate(){
 	// Check for the Row.
 	for ( i = 0 ; i < 3 ; i++ ) {
 		if ( board[i][0] == board[i][1] && board[i][1] == board[i][2]){
@@ -69,11 +62,7 @@ var evaluate = function( board ){
 	}
 	return 0;
 }
-
-/**
- * Function to if Moves left
- **/
-var isMoveLeft = function( board ) {
+function isMoveLeft() {
 	for ( i = 0 ; i < 3 ; i++ ) {
 		for ( j = 0 ; j < 3 ; j++ ) {
 			if ( '_' == board[i][j] ){
@@ -83,50 +72,42 @@ var isMoveLeft = function( board ) {
 	}
 	return false;
 }
-
-/**
- * Function to finding the next best move.
- **/
-var minimax = function( board, depth, isMax = 1 ) {
-	var score = evaluate( board );
-	console.log( 'score ' + score );
+function minimax( depth, isMax ) {
+	var score = evaluate();
 	if ( -10 == score ) {
-		alert('leaving' );
-		return (score + board);
+		score = score - depth;
+		return (score);
 	}
 	if ( 10 == score ) {
-		return (score - board);
+		score = score + depth;
+		return (score);
 	}
-	if ( ! isMoveLeft ( board ) ) {
-		alert('nomove');
+	if ( ! isMoveLeft() ) {
 		return 0;
 	}
-	if ( 1 == isMax ) {   // Now maximizingg the value
-		console.log('max');
+	if ( 1 == isMax ) {   // Now maximizing the value
 		var best = -1000;
 		for ( i = 0 ; i < 3 ; i++ ) {
 			for ( j = 0 ; j < 3 ; j++ ) {
-
 				if ( '_' == board[i][j] ) {
 					board[i][j] = player;
-					depth++;
-					best = max( best, minimax( board , depth , 0 ) );
+					depth += 1;
+					best = max( best, minimax( depth , 0 ) );
 					board[i][j] = '_';
 				}
 			}
 		}
 		return best;
 	}
-	if ( 0 == isMax ) {  // Now minimizingg the value
-		console.log('min');
+	if ( 0 == isMax ) {  // Now minimizing the value
 		var best = 1000;
-		for ( i = 0 ; i <3 ; i++ ) {
+		var i,j;
+		for ( i = 0 ; i < 3 ; i++ ) {
 			for ( j = 0 ; j < 3 ; j++ ) {
-
 				if ( '_' == board[i][j]) {
 					board[i][j] = opponent;
-					depth++;
-					best = min( best, minimax( board , depth , 1 ) );
+					depth += 1;
+					best = min( best, minimax( depth , 1 ) );
 					board[i][j] = '_';
 				}
 
@@ -135,21 +116,18 @@ var minimax = function( board, depth, isMax = 1 ) {
 		return best;
 	}
 }
-
-/**
- * Function to finding the next best move.
- **/
-var findBestMove = function( board ) {
-	bestVal = -1000;
-	bestMove = {
+function findBestMove() {
+	var bestVal = -1000;
+	var bestMove = {
 		row : -1,
 		col : -1,
 	};
+	var moveVal,i,j;
 	for ( i = 0; i < 3; i++ ) {
 		for ( j = 0; j < 3 ; j++ ) {
 			if ( '_' == board[i][j] ) { // if empty
 				board[i][j] = player;
-				moveVal = minimax( board, 0 , 0 );
+				moveVal = minimax( 0 , 0 );
 				board[i][j] = '_';  //backing off to previous empty value
 				if ( moveVal > bestVal ) {
 					bestMove.row = i;
@@ -161,11 +139,72 @@ var findBestMove = function( board ) {
 	}
 	return bestMove;
 }
-jQuery(document).ready(function(){
-	console.log(board);
-	lol = new lol;
-	lol.l();
-	console.log(max(2,4));
-	bestMove = findBestMove(board);
-	console.log(bestMove);
-});
+return{
+	move:function(x,y){
+		if( count == 0) {
+			reset_board();
+			count++;
+		}
+		board[x][y] = opponent;
+		var freshMove = findBestMove();
+		if(freshMove.row != -1 || freshMove.col != -1 ){
+			board[freshMove.row][freshMove.col] = player;
+		} else{
+			console.log('Game Over!');
+			$('#drawModel').modal();
+		}
+		var score = evaluate();
+		if( score == 10 ){
+			freshMove['status']= 'win';
+			console.log(freshMove);
+			return freshMove;
+		}
+		return freshMove;
+	}
+}
+})();
+function move(element,x,y){
+	$(".place").css("pointer-events", "none");
+	if ($(element).hasClass('place-free')){
+		$(element).html('<h1>' + opponent + '</h1>');
+		$(element).removeClass('place-free').addClass('place-occupied');
+		setTimeout(function(){
+			var move = game.move(x,y);
+			if(move.row == 0 ){
+				var place = move.col;
+			} else if(move.row == 1 ){
+				var place = 3 + move.col;
+			} else if(move.row == 2 ){
+				var place = 6 + move.col;
+			}
+			playerMove = '.' + place + 'place';
+			setTimeout(function() {
+					$(playerMove).html('<h1>' + player + '</h1>');
+					$(playerMove).removeClass('place-free').addClass('place-occupied');
+					$(".place").css("pointer-events", "auto");
+				}, 300);
+			if(move.status === 'win'){
+				setTimeout(function() {
+					$('#winModel').modal();
+					$(".place").css("pointer-events", "none");
+				}, 800);
+			}
+		}, 300);
+	} else{
+		$(".place").css("pointer-events", "auto");
+		$('#usedSnackbar').addClass('show');
+		setTimeout(function(){
+			$('#usedSnackbar').removeClass('show');
+		},3000);
+	}
+}
+$(document).ready(function(){
+	$('#openModal').modal();
+})
+function weapon(tic){
+	player = (tic === 'x') ? 'O' : 'X';
+	opponent = (tic === 'x') ? 'X' : 'o';
+	console.log(player);
+	console.log(opponent);
+	$('#openModal').modal('hide');
+}

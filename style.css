@@ -11,13 +11,15 @@ body{
 .place{
 	width: 120px;
 	height: 120px;
-	padding: 10px;
 	cursor: pointer;
+	border-radius: 10px;
+	border: 10px #AD310B solid;
+	padding: 10px;
+	transition: .1s;
 }
 .place h1{
 	font-size: 80px;
 	margin: 0;
-	transition: 1s;
 	width: 100px;
 	height: 100px;
 	display: flex;
@@ -29,9 +31,6 @@ body{
 }
 .place-occupied h1{
 	background-color: #2196f3;
-}
-.place h1{
-	transition: stroke-dashoffset 0.225s cubic-bezier(0.4,0,0.2,1);
 }
 .place.place-free h1:hover {
 	background-color: #f59565;
