@@ -1,32 +1,62 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Tic Tac Toe</title>
-	<link rel="stylesheet" href="bootstrap.min.css">
-	<link rel="stylesheet" href="style.css">
-	<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
-	<script src="game2.js" type="text/javascript" charset="utf-8"></script>
-</head>
-<body>
-	<div class="container" id="board">
-		<div class="row wrap">
-			<div class="place place-free 0 0 0place" onclick="move(this,0,0)"><h1>_</h1></div>
-			<div class="place place-free 0 1 1place" onclick="move(this,0,1)"><h1>_</h1></div>
-			<div class="place place-free 0 2 2place" onclick="move(this,0,2)"><h1>_</h1></div>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Tic Tac Toe</title>
+		<link rel="stylesheet" href="bootstrap.min.css">
+		<link rel="stylesheet" href="style.css">
+		<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="game2.js" type="text/javascript" charset="utf-8"></script>
+		<script src="modal.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="container-fluid" id="board">
+			<div class="row wrap">
+				<div class="place place-free 0 0 0place" onclick="move(this,0,0)"><h1>&nbsp;</h1></div>
+				<div class="place place-free 0 1 1place" onclick="move(this,0,1)"><h1>&nbsp;</h1></div>
+				<div class="place place-free 0 2 2place" onclick="move(this,0,2)"><h1>&nbsp;</h1></div>
+			</div>
+			<div class="row wrap">
+				<div class="place place-free 1 0 3place" onclick="move(this,1,0)"><h1>&nbsp;</h1></div>
+				<div class="place place-free 1 1 4place" onclick="move(this,1,1)"><h1>&nbsp;</h1></div>
+				<div class="place place-free 1 2 5place" onclick="move(this,1,2)"><h1>&nbsp;</h1></div>
+			</div>
+			<div class="row wrap">
+				<div class="place place-free 2 0 6place" onclick="move(this,2,0)"><h1>&nbsp;</h1></div>
+				<div class="place place-free 2 1 7place" onclick="move(this,2,1)"><h1>&nbsp;</h1></div>
+				<div class="place place-free 2 2 8place" onclick="move(this,2,2)"><h1>&nbsp;</h1></div>
+			</div>
 		</div>
-		<div class="row wrap">
-			<div class="place place-free 1 0 3place" onclick="move(this,1,0)"><h1>_</h1></div>
-			<div class="place place-free 1 1 4place" onclick="move(this,1,1)"><h1>_</h1></div>
-			<div class="place place-free 1 2 5place" onclick="move(this,1,2)"><h1>_</h1></div>
+		<div class="container reload">
+			<a href="#" onclick="window.location.reload()" class="btn btn-primary">Restart</a>
 		</div>
-		<div class="row wrap">
-			<div class="place place-free 2 0 6place" onclick="move(this,2,0)"><h1>_</h1></div>
-			<div class="place place-free 2 1 7place" onclick="move(this,2,1)"><h1>_</h1></div>
-			<div class="place place-free 2 2 8place" onclick="move(this,2,2)"><h1>_</h1></div>
+		<!-- Modal for Winner-->
+		<div id="winModel" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h2 class="modal-title">Computer WON!</h2>
+						<h4>Try Again!</h4>
+					</div>
+				</div>
+			</div>
 		</div>
-		<!-- <a href="#" onclick="" class="col-xs-12 btn btn-primary">Click</a> -->
-	</div>
-</body>
+		<!-- Modal for Draw Game-->
+		<div id="drawModel" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h2 class="modal-title">Game Draw!</h2>
+						<h4>Well Played!</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="usedSnackbar">Place already used..</div>
+	</body>
 </html>

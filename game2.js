@@ -1,6 +1,6 @@
 var count = 0;
-var player = 'x';
-var opponent = 'o';
+var player = 'X';
+var opponent = 'O';
 var game = (function(){
 var board = [];
 var bestMove = [];
@@ -11,6 +11,8 @@ function reset_board(){
 	for(i=0;i<3;i++){
 		board.push([ '_', '_', '_' ]);
 	}
+	// $('h1').html(' ');
+
 }
 function min( a, b ){
 	return ( a > b ) ? b : a;
@@ -73,10 +75,12 @@ function isMoveLeft() {
 function minimax( depth, isMax ) {
 	var score = evaluate();
 	if ( -10 == score ) {
-		return (score - depth);
+		score = score - depth;
+		return (score);
 	}
 	if ( 10 == score ) {
-		return (score + depth);
+		score = score + depth;
+		return (score);
 	}
 	if ( ! isMoveLeft() ) {
 		return 0;
@@ -141,43 +145,56 @@ return{
 			reset_board();
 			count++;
 		}
-		// console.log(board);
-		var score = evaluate();
-		if( score == 10 ){
-			console.log('Computer is Winner');
-			var bestMove = {
-				row : -1,
-				col : -1,
-			};
-			return bestMove;
-		}
 		board[x][y] = opponent;
 		var freshMove = findBestMove();
 		if(freshMove.row != -1 || freshMove.col != -1 ){
 			board[freshMove.row][freshMove.col] = player;
 		} else{
 			console.log('Game Over!');
+			$('#drawModel').modal();
+		}
+		var score = evaluate();
+		if( score == 10 ){
+			freshMove['status']= 'win';
+			console.log(freshMove);
+			return freshMove;
 		}
 		return freshMove;
 	}
 }
 })();
 function move(element,x,y){
+	$(".place").css("pointer-events", "none");
 	if ($(element).hasClass('place-free')){
 		$(element).html('<h1>' + opponent + '</h1>');
-		var move = game.move(x,y);
-		if(move.row == 0 ){
-			var place = move.col;
-		} else if(move.row == 1 ){
-			var place = 3 + move.col;
-		} else if(move.row == 2 ){
-			var place = 6 + move.col;
-		}
-		playerMove = '.' + place + 'place';
-		$(playerMove).html('<h1>' + player + '</h1>');
 		$(element).removeClass('place-free').addClass('place-occupied');
-		$(playerMove).removeClass('place-free').addClass('place-occupied');
+		setTimeout(function(){
+			var move = game.move(x,y);
+			if(move.row == 0 ){
+				var place = move.col;
+			} else if(move.row == 1 ){
+				var place = 3 + move.col;
+			} else if(move.row == 2 ){
+				var place = 6 + move.col;
+			}
+			playerMove = '.' + place + 'place';
+			setTimeout(function() {
+					$(playerMove).html('<h1>' + player + '</h1>');
+					$(playerMove).removeClass('place-free').addClass('place-occupied');
+					$(".place").css("pointer-events", "auto");
+				}, 300);
+			if(move.status === 'win'){
+				setTimeout(function() {
+					$('#winModel').modal();
+					$(".place").css("pointer-events", "none");
+				}, 800);
+			}
+		}, 300);
 	} else{
-		console.log('Place already used!');
+		$(".place").css("pointer-events", "auto");
+		$('#usedSnackbar').addClass('show');
+		setTimeout(function(){
+			$('#usedSnackbar').removeClass('show');
+		},3000);
 	}
 }
