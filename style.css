@@ -6,14 +6,14 @@ body{
 	width: 370px;
 	height: 360px;
 	margin: auto;
-	margin-top: 4em;
+	margin-top: 0em;
 }
 .place{
 	width: 120px;
 	height: 120px;
 	cursor: pointer;
 	border-radius: 10px;
-	border: 10px #AD310B solid;
+	border: 10px #ad110b solid;
 	padding: 10px;
 	transition: .1s;
 }
@@ -27,13 +27,14 @@ body{
 	align-items: center;
 }
 .place-free h1{
-	background-color: #AD310B;
+	background-color: #ad110b;
+	/*border-bottom: 1px solid #fff*/
 }
 .place-occupied h1{
 	background-color: #2196f3;
 }
 .place.place-free h1:hover {
-	background-color: #f59565;
+	background-color: #AD310B;
 	-webkit-transition: background-color 1000ms linear;
 	-ms-transition: background-color 1000ms linear;
 	transition: background-color 1000ms linear;
@@ -56,6 +57,7 @@ body{
 }
 .container.reload a{
 	margin: 1em auto;
+	margin-top: 7em;
 }
 .gap{
 	height: 3em;
