@@ -5,11 +5,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Tic Tac Toe</title>
-		<link rel="stylesheet" href="bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="style.css">
-		<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="modal.js" type="text/javascript" charset="utf-8"></script>
 		<script src="game.js" type="text/javascript" charset="utf-8"></script>
+		<!--Keywords-->
 		<meta name="keywords" content="Tic Tac Toe, Cross and Naughts, Cross, Naughts, Hangman, Shubham, Pandey, Shubham Pandey,Game,Game Development, Play Tic Tac Toe, Artificial Intelligence, AI Bot, AI Game">
 		<meta name="description" content="Tic Tac Toe AIGame created By Shubham Pandey. Based on MiniMax Algorithm."/>
 		<meta name="rating" content="General">
@@ -30,7 +31,16 @@
 		<meta name="twitter:title" content="Tic Tac Toe AIGame created By Shubham Pandey" />
 		<meta name="twitter:site" content="@shubham9411" />
 		<meta name="twitter:image" content="https://raw.githubusercontent.com/shubham9411/tic-tac-toe/master/Screenshot.png" />
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+		  ga('create', 'UA-90186372-3', 'auto');
+		  ga('send', 'pageview');
+
+		</script>
 	</head>
 	<body>
 		<a href="https://github.com/shubham9411/tic-tac-toe"><img style="position: absolute; top:-10px; left: 0; border: 0;" src="https://camo.githubusercontent.com/8b6b8ccc6da3aa5722903da7b58eb5ab1081adee/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png"></a>
@@ -67,9 +77,9 @@
 						<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
 						<h2 class="modal-title">Choose your <strong>Weapon</strong></h2>
 						<div class="gap"></div>
-						<a href="#" onclick="weapon('x')" class="btn btn-primary">Cross <strong>X</strong></a>
+						<a href="#" onclick="weapon('X')" class="btn btn-primary">Cross <strong>X</strong></a>
 						<span>&nbsp;OR&nbsp;</span>
-						<a href="#" onclick="weapon('o')" class="btn btn-primary">Nought <strong>O</strong></a>
+						<a href="#" onclick="weapon('O')" class="btn btn-primary">Nought <strong>O</strong></a>
 					</div>
 				</div>
 			</div>
@@ -80,7 +90,7 @@
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-body">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<button type="button" class="close" data-dismiss="modal"><a href="#" onclick="window.location.reload()">&times;</a></button>
 						<h2 class="modal-title">Computer WON!</h2>
 						<h4>Try Again!</h4>
 					</div>
@@ -93,7 +103,7 @@
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-body">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<button type="button" class="close" data-dismiss="modal"><a href="#" onclick="window.location.reload()">&times;</a></button>
 						<h2 class="modal-title">Game Draw!</h2>
 						<h4>Well Played!</h4>
 					</div>
@@ -101,15 +111,6 @@
 			</div>
 		</div>
 		<div id="usedSnackbar">Place already used..</div>
+		<div id="weapon">You have Choosed Weapon </div>
 	</body>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-90186372-3', 'auto');
-  ga('send', 'pageview');
-
-</script>
 </html>

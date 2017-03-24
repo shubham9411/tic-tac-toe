@@ -50,6 +50,19 @@ body{
 @media (max-width:480px){
 	.place h1{
 		font-size: 30px;
+		width: 80px;
+		height: 80px;
+	}
+	.place{
+		width: 100px;
+		height: 100px;
+		border-radius: 5px;
+		border-width: 5px;
+		padding: 5px;
+	}
+	#board{
+		width: 320px;
+		height: 320px;
 	}
 }
 .container.reload{
@@ -64,6 +77,7 @@ body{
 	width: 100%;
 }
 /* The snackbar - position it at the bottom and in the middle of the screen */
+#weapon,
 #usedSnackbar {
     visibility: hidden; /* Hidden by default. Visible on click */
     min-width: 250px; /* Set a default minimum width */
@@ -80,6 +94,7 @@ body{
 }
 
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
+#weapon.show,
 #usedSnackbar.show {
     visibility: visible; /* Show the snackbar */
 

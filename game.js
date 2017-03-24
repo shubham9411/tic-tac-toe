@@ -75,11 +75,11 @@ function isMoveLeft() {
 function minimax( depth, isMax ) {
 	var score = evaluate();
 	if ( -10 == score ) {
-		score = score - depth;
+		score = score + depth;
 		return (score);
 	}
 	if ( 10 == score ) {
-		score = score + depth;
+		score = score - depth;
 		return (score);
 	}
 	if ( ! isMoveLeft() ) {
@@ -150,13 +150,13 @@ return{
 		if(freshMove.row != -1 || freshMove.col != -1 ){
 			board[freshMove.row][freshMove.col] = player;
 		} else{
-			console.log('Game Over!');
+			// console.log('Game Over!');
 			$('#drawModel').modal();
 		}
 		var score = evaluate();
 		if( score == 10 ){
 			freshMove['status']= 'win';
-			console.log(freshMove);
+			// console.log(freshMove);
 			return freshMove;
 		}
 		return freshMove;
@@ -200,11 +200,18 @@ function move(element,x,y){
 }
 $(document).ready(function(){
 	$('#openModal').modal();
+	$("#openModal").on('hidden.bs.modal', function () {
+		var content = $('#weapon').html();
+		content += opponent;
+		$('#weapon').html(content);
+		$('#weapon').addClass('show');
+		setTimeout(function(){
+			$('#weapon').removeClass('show');
+		},3000);
+	});
 })
-function weapon(tic){
-	player = (tic === 'x') ? 'O' : 'X';
-	opponent = (tic === 'x') ? 'X' : 'o';
-	console.log(player);
-	console.log(opponent);
+function weapon( tic ){
+	player = (tic === 'X') ? 'O' : 'X';
+	opponent = (tic === 'X') ? 'X' : 'O';
 	$('#openModal').modal('hide');
 }
