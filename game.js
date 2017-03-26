@@ -75,11 +75,11 @@ function isMoveLeft() {
 function minimax( depth, isMax ) {
 	var score = evaluate();
 	if ( -10 == score ) {
-		score = score + depth;
+		score = score - depth;
 		return (score);
 	}
 	if ( 10 == score ) {
-		score = score - depth;
+		score = score + depth;
 		return (score);
 	}
 	if ( ! isMoveLeft() ) {
